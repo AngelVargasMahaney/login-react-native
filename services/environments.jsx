@@ -1,0 +1,1 @@
+export const URL_BACKEND = 'https://relengapiv1-test.relengcorp.com/api'
