@@ -6,6 +6,7 @@ import LoginScreen from './modules/LoginScreen';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from './modules/HomeScreen';
+import RegisterScreen from './modules/RegisterScreen';
 
 const Stack = createNativeStackNavigator();
 //cannot read  propierties  of undefinied (reading navigate)
@@ -20,8 +21,9 @@ function MyStack() {
 
       <Stack.Screen name="Login"
         component={LoginScreen} />
-      <Stack.Screen name="Home"
-        component={HomeScreen} />
+     
+      <Stack.Screen name="Register"
+        component={RegisterScreen} />
 
     </Stack.Navigator>
 

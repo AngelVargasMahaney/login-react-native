@@ -27,16 +27,14 @@ const LoginScreen = (props) => {
     const doLogin = () => {
         postLogin(formulario).then(response => {
             console.warn(response)
-            Asyncstorage.setItem("token", JSON.stringify(response.data.token)).then(response => {
-                props.navigation.navigate('Home')
+            Asyncstorage.setItem("token", response.data.token).then(response => {
                 alert("Login exitosos")
+                props.navigation.navigate('Register')
             })
-
+            
         }, err => {
             console.warn(err)
             alert("Usuario no encontrado")
-
-
         })
     }
     return (
@@ -47,7 +45,7 @@ const LoginScreen = (props) => {
                 <TextInput placeholder="password" name="password" label="Password"
                     onChangeText={(value) => handleChangeText('password', value)} />
 
-                <Button title="Submit" onPress={doLogin} />
+                <Button title="Enviar" name="Submit" onPress={doLogin}/>
 
             </View>
         </>
