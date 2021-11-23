@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useState } from "react";
+import React, { Component, useContext, useEffect, useState } from "react";
 import {
     StyleSheet,
     View,
@@ -15,21 +15,30 @@ import {
 
 import axios from "axios"
 import { getTroubleShootingById } from '../services/servicios';
+import { AuthContext } from "./context/AuthContext";
+import { useParams } from "react-router-native";
+import { useNavigation } from "@react-navigation/native";
 
 export default function DetailScreen(props) {
-    const [tokenV, setTokenV] = useState("")
 
-    const checkToken = async () => {
-        const token = await AsyncStorage.getItem('token')
-        setTokenV(token)
-        console.log("TOEKOTEK " + token);
+    const { tokencito } = useContext(AuthContext)
+    console.log(tokencito)
+    const [loading, setLoading] = useState()
+    const [data, setData] = useState([])
+    const params = useParams()
+
+    const getDataByID = () => {
+        const idUrl = props.route.params.id;
+        getTroubleShootingById(idUrl, tokencito).then(rpta => {
+
+            setData(rpta.data.data)
+            console.log(rpta.data.data)
+        })
     }
+    const navigation = useNavigation();
     useEffect(() => {
-        checkToken()
+        getDataByID()
     }, [])
-
-
-
     if (loading) {
         <View>
             <ActivityIndicator size="large" color="#547485" />
@@ -38,37 +47,39 @@ export default function DetailScreen(props) {
     return (
         <ScrollView style={styles.container}>
             <View style={styles.rect}>
-                <Text style={styles.tituloIncidente}>Registro de incidente Revisión</Text>
+                {/* <Text style={styles.tituloIncidente}>Registro de incidente Revisión</Text>
                 <Text style={styles.fechaTag1}>Fecha</Text>
-                <Text style={styles.fecha2}>{Reporte.fecha}</Text>
+                <Text style={styles.fecha2}>{data.fecha}</Text>
                 <Text style={styles.horaTag1}>Hora</Text>
-                <Text style={styles.hora2}>{Reporte.hora}</Text>
+                <Text style={styles.hora2}>{data.hora}</Text>
                 <Text style={styles.supeintendente1}>Supeintendente</Text>
-                <Text style={styles.superintendenteEntrada}>{Reporte.superintendente}</Text>
-                <Text style={styles.supervisores1}>Supervisores</Text>
-                <Text style={styles.ingreseSupervisores}>{Reporte.supervisores}</Text>
-                <Text style={styles.operadores1}>Operadores</Text>
-                <Text style={styles.ingreseOperadores}>{Reporte.operadores}</Text>
+                <Text style={styles.superintendenteEntrada}>{data.superintendente}</Text> */}
+                <Text style={styles.supervisores1}>EVENT</Text>
+                <Text style={styles.ingreseSupervisores}>{data.event}</Text>
+                {/* <Text style={styles.supervisores1}>Supervisores</Text>
+                <Text style={styles.ingreseSupervisores}>{data.supervisor}</Text> */}
+                {/* <Text style={styles.operadores1}>Operadores</Text>
+                <Text style={styles.ingreseOperadores}>{data.operadores}</Text>
                 <Text style={styles.equipo1}>Equipo</Text>
-                <Text style={styles.ingreseEquipo}>{Reporte.equipo}</Text>
+                <Text style={styles.ingreseEquipo}>{data.equipo}</Text>
                 <Text style={styles.tiempoDeParada}>Tiempo de parada</Text>
-                <Text style={styles.horas}>{Reporte.tiempoParada}</Text>
+                <Text style={styles.horas}>{data.tiempoParada}</Text>
                 <Text style={styles.detalleDeParada1}>Detalle de Parada</Text>
-                <Text style={styles.ingreseDetalles}>{Reporte.detalleParada}</Text>
+                <Text style={styles.ingreseDetalles}>{data.detalleParada}</Text>
                 <Text style={styles.evento}>Evento</Text>
-                <Text style={styles.detallesEvento}>{Reporte.evento}</Text>
+                <Text style={styles.detallesEvento}>{data.evento}</Text>
                 <Text style={styles.causa}>Causa</Text>
-                <Text style={styles.detallesCausa}>{Reporte.causa}</Text>
+                <Text style={styles.detallesCausa}>{data.causa}</Text>
                 <Text style={styles.accionesTomadas}>Acciones Tomadas</Text>
-                <Text style={styles.accionesDetalle}>{Reporte.accionesTomadas}</Text>
+                <Text style={styles.accionesDetalle}>{data.accionesTomadas}</Text>
                 <Text style={styles.resultados}>Resultados</Text>
-                <Text style={styles.resultadosDetalle}>{Reporte.resultado}</Text>
+                <Text style={styles.resultadosDetalle}>{data.resultado}</Text>
                 <Text style={styles.conclusiones}>Conclusiones</Text>
-                <Text style={styles.conclusionesDetalle}>{Reporte.conclusiones}</Text>
+                <Text style={styles.conclusionesDetalle}>{data.conclusiones}</Text>
                 <Text style={styles.detallesDeCapturas}>Detalles de capturas</Text>
-                <Text style={styles.detallesDeLaFotos}>{Reporte.evidenciaDetalle}</Text>
-                <View style={styles.imagen_1}>{!!Reporte.foto1 && (
-                    <Image source={{ uri: Reporte.foto1 }}
+                <Text style={styles.detallesDeLaFotos}>{data.evidenciaDetalle}</Text>
+                <View style={styles.imagen_1}>{!!data.foto1 && (
+                    <Image source={{ uri: data.foto1 }}
                         style={{
                             width: 310,
                             height: 210,
@@ -77,8 +88,8 @@ export default function DetailScreen(props) {
                             opacity: 0.9,
                         }} />)}
                 </View>
-                <View style={styles.imagen_2}>{!!Reporte.foto2 && (
-                    <Image source={{ uri: Reporte.foto2 }}
+                <View style={styles.imagen_2}>{!!data.foto2 && (
+                    <Image source={{ uri: data.foto2 }}
                         style={{
                             width: 310,
                             height: 210,
@@ -86,10 +97,10 @@ export default function DetailScreen(props) {
                             marginRight: 20,
                             opacity: 0.9,
                         }} />)}
-                </View>
+                </View> */}
                 <TouchableOpacity
-                    style={[styles.containerBotonGuardar, props.style, styles.guardarDataReporte]}
-                    onPress={() => props.navigation.goBack()}>
+                    style={[styles.containerBotonGuardar, styles.guardarDataReporte]}
+                    onPress={() => navigation.goBack()}>
                     <Text style={styles.guardarReporte}>Finalizar Revision</Text>
                 </TouchableOpacity>
             </View>

@@ -44,7 +44,11 @@ export const getTroubleShooting = async (token) => {
     })
     return rpta
 }
-export const getTroubleShootingById = async (id) => {
-    const rpta = await axios.get(`${URL_BACKEND}/troubleshooting/getEspecific/${id}`)
+export const getTroubleShootingById = async (id, token) => {
+    const rpta = await axios.get(`${URL_BACKEND}/troubleshooting/getEspecific/${id}`, {
+        headers: {
+            Authorization: "Bearer " + token
+        }
+    })
     return rpta
 }

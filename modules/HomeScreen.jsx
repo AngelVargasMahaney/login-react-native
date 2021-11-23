@@ -1,29 +1,23 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Button } from 'react-native'
 import { getTroubleShooting } from '../services/servicios';
 import { ListItem, Avatar, Divider } from "react-native-elements";
 import Icons from "react-native-vector-icons/Ionicons";
 import axios from "axios"
 import AsyncStorage from '@react-native-async-storage/async-storage';
-const HomeScreen = (props) => {
+import { AuthContext } from './context/AuthContext';
+import { useNavigation } from '@react-navigation/native';
+const HomeScreen = ({ children }) => {
 
 
     const [Reportes, setReportes] = useState([])
-    const [tokenV, setTokenV] = useState("")
-
-    const checkToken = async () => {
-        const token = await AsyncStorage.getItem('token')
-        setTokenV(token)
-        console.log("TOEKOTEK " + token);
-    }
-    useEffect(() => {
-        checkToken()
-    }, [])
+    const { tokencito } = useContext(AuthContext)
+    const navigation = useNavigation();
 
     const traerTroubles = () => {
-        getTroubleShooting(tokenV).then(rpta => {
+        getTroubleShooting(tokencito).then(rpta => {
             setReportes(rpta.data.data)
-            console.log(rpta.data.data)
+            // console.log(rpta.data.data)
         })
     }
 
@@ -31,12 +25,13 @@ const HomeScreen = (props) => {
         traerTroubles()
     }, [])
 
+ 
 
     return (
-        <><View style={[styles.container1, props.style]}>
+        <><View style={[styles.container1]}>
             <View style={styles.leftWrapper}>
                 <TouchableOpacity style={styles.leftIconButton}
-                    onPress={() => props.navigation.navigate('Home')}
+                    onPress={() => navigation.navigate('Home')}
                 >
                     <Icons name="ios-arrow-back" style={styles.leftIcon}
 
@@ -66,8 +61,8 @@ const HomeScreen = (props) => {
                     Reportes.map(Reportes => {
                         return (
                             <ListItem style={styles.inputGroups} key={Reportes.id} buttonDivider
-                                onPress={() => props.navigation.navigate('ReporteDetalle', {
-                                    ReporteId: Reportes.id
+                                onPress={() => navigation.navigate('ReporteDetalle', {
+                                    id: Reportes.id
                                 })}>
 
                                 <ListItem.Chevron /*es el icono*/ />

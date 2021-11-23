@@ -7,6 +7,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from './modules/HomeScreen';
 import RegisterScreen from './modules/RegisterScreen';
+import { AuthProvider } from './modules/context/AuthContext';
+import DetailScreen from './modules/DetailScreen';
 
 const Stack = createNativeStackNavigator();
 //cannot read  propierties  of undefinied (reading navigate)
@@ -26,6 +28,8 @@ function MyStack() {
 
       <Stack.Screen name="Register"
         component={RegisterScreen} />
+      <Stack.Screen name="ReporteDetalle"
+        component={DetailScreen} />
 
     </Stack.Navigator>
 
@@ -38,10 +42,11 @@ export default function App() {
 
   return (
     <>
-      <NavigationContainer>
-        <MyStack />
-      </NavigationContainer>
-
+      <AuthProvider>
+        <NavigationContainer>
+          <MyStack />
+        </NavigationContainer>
+      </AuthProvider>
 
     </>
 

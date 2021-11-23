@@ -13,12 +13,17 @@ import {
 import axios from "axios"
 import Asyncstorage from "@react-native-async-storage/async-storage"
 import { postLogin } from '../services/servicios';
+import { useNavigation } from '@react-navigation/native';
+import { useAuth } from './context/AuthContext';
 
-const LoginScreen = (props) => {
+const LoginScreen = () => {
     const [formulario, setFormulario] = useState({
         email: "",
         password: ""
     })
+
+    const { tokencito, setTokencito } = useAuth()
+    const navigation = useNavigation();
 
     const handleChangeText = (nombre, value) => {
         setFormulario({ ...formulario, [nombre]: value })
@@ -27,9 +32,10 @@ const LoginScreen = (props) => {
     const doLogin = () => {
         postLogin(formulario).then(response => {
           console.warn(response)
+          setTokencito(response.data.token)
           Asyncstorage.setItem("token", response.data.token).then(response => {
             alert("Login exitosos")
-            props.navigation.navigate('Home')
+            navigation.navigate('Home')
           })
     
         }, err => {
