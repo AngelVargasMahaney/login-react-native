@@ -34,3 +34,17 @@ export const postCrearImagen = async (data) => {
         { headers: { 'Content-Type': 'application/json' } })
     return rpta
 }
+
+
+export const getTroubleShooting = async (token) => {
+    const rpta = await axios.get(`${URL_BACKEND}/troubleshooting/getAll`, {
+        headers: {
+            Authorization: "Bearer " + token
+        }
+    })
+    return rpta
+}
+export const getTroubleShootingById = async (id) => {
+    const rpta = await axios.get(`${URL_BACKEND}/troubleshooting/getEspecific/${id}`)
+    return rpta
+}

@@ -26,17 +26,17 @@ const LoginScreen = (props) => {
     };
     const doLogin = () => {
         postLogin(formulario).then(response => {
-            console.warn(response)
-            Asyncstorage.setItem("token", response.data.token).then(response => {
-                alert("Login exitosos")
-                props.navigation.navigate('Register')
-            })
-            
+          console.warn(response)
+          Asyncstorage.setItem("token", response.data.token).then(response => {
+            alert("Login exitosos")
+            props.navigation.navigate('Home')
+          })
+    
         }, err => {
-            console.warn(err)
-            alert("Usuario no encontrado")
+          console.warn(err)
+          alert("Usuario no encontrado")
         })
-    }
+      }
     return (
         <>
             <View style={styles.container}>
